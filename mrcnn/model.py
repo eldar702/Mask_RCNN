@@ -2526,6 +2526,11 @@ class MaskRCNN(object):
                 self.unmold_detections(detections[i], mrcnn_mask[i],
                                        image.shape, molded_images[i].shape,
                                        windows[i])
+            sorted_indices = sorted(range(len(final_rois)), key=lambda i: (final_rois[i][0], final_rois[i][1]))
+            final_rois = final_rois[sorted_indices]
+            final_class_ids = final_class_ids[sorted_indices]
+            final_scores = final_scores[sorted_indices]
+            final_masks = final_masks[:, :, sorted_indices]
             results.append({
                 "rois": final_rois,
                 "class_ids": final_class_ids,
